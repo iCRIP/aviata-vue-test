@@ -1,0 +1,31 @@
+@import './variables';
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 1160px;
+  padding: 43px 10px;
+  margin: 0 auto;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.sidebar {
+  flex-shrink: 0;
+  width: 240px;
+}
+
+.main {
+  flex-grow: 1;
+}
