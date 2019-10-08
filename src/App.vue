@@ -75,8 +75,7 @@ export default {
     },
 
     getResults() {
-      return this.$axios
-        .get('/api/results.json')
+      return this.$api.airlines.all()
         .then(({ data }) => {
           this.setFiltersVariants(
             'airlines',
