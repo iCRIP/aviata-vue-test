@@ -1,16 +1,29 @@
 <template>
   <div id="app" class="container">
     <div class="row">
-      <aside class="sidebar">
+      <aside :class="{'sidebar': true, 'sidebar-active': showSidebar}">
+        <div class="sidebar-toggle">
+          <button
+            class="sidebar-toggle-btn"
+            @click="showSidebar = !showSidebar"
+            >
+            <span v-if="!showSidebar">
+              Показать фильтры
+            </span>
+            <span v-if="showSidebar">
+              Скрыть фильтры
+            </span>
+          </button>
+        </div>
         <FilterCheckboxes
           v-for="(filter, index) in filters"
           :key="'filter-' + index"
           :filter="filter"
           v-model="selectedFilters[filter.name]"
-        />
+          />
       </aside>
       <main class="main">
-        <FlightList :flights="flightsFiltered" />
+        <FlightList :flights="flightsFiltered" :loading="loading" />
       </main>
     </div>
   </div>
@@ -28,6 +41,7 @@ export default {
   },
   data() {
     return {
+      loading: true,
       filters: [
         {
           title: 'Опции тарифа',
@@ -63,6 +77,7 @@ export default {
       },
       flights: [],
       flightsFiltered: [],
+      showSidebar: false,
     }
   },
 
@@ -129,6 +144,7 @@ export default {
     },
 
     getResults() {
+      this.loading = true;
       return this.$api.airlines.all()
         .then(({ data }) => {
           this.setFiltersVariants(
@@ -137,6 +153,7 @@ export default {
           );
           this.flights = data.flights;
           this.filterFlights();
+          this.loading = false;
         })
         .catch(err => new Error(err))
     }
@@ -156,3 +173,54 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+  .sidebar {
+    @media (max-width: 1180px) {
+      position: fixed;
+      z-index: 10;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      padding: 40px 10px 10px;
+      margin-right: 0;
+      width: 260px;
+      background: $bgCardAccent;
+      transform: translateX(100%);
+      transition: transform 0.4s;
+      will-change: transform;
+
+      &-active {
+        transform: translateX(0);
+
+        .sidebar-toggle {
+          transform: translateX(0);
+        }
+      }
+    }
+
+    &-toggle {
+      display: none;
+      position: absolute;
+      left: 20px;
+      top: 10px;
+      align-items: center;
+      justify-content: center;
+      transform: translateX(-180px);
+      transition: transform 0.4s;
+
+      button {
+        width: 140px;
+        border: none;
+        height: 30px;
+        border-radius: 50px;
+        color: $white;
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+
+      @media (max-width: 1180px) {
+        display: flex;
+      }
+    }
+  }
+</style>

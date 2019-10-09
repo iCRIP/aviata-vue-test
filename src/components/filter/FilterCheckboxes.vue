@@ -191,6 +191,10 @@
     overflow-x: hidden;
     max-height: 265px;
 
+    @media (max-width: 1180px) {
+      max-height: none;
+    }
+
     &--scroll {
       margin-right: 4px;
     }

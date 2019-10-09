@@ -130,6 +130,10 @@
       display: flex;
       flex-wrap: wrap;
       padding: 40px 92px 18px 44px;
+
+      @media (max-width: 900px) {
+        padding: 20px;
+      }
     }
 
     &-carrier {
@@ -139,9 +143,19 @@
       width: 140px;
       padding-right: 10px;
 
+      @media (max-width: 600px) {
+        width: 100%;
+        margin-bottom: 20px;
+        order: 2
+      }
+
       &-img {
         width: 20px;
         margin-right: $paddingMain;
+
+        @media (max-width: 600px) {
+          width: 40px;
+        }
 
         img {
           display: block;
@@ -188,6 +202,17 @@
       display: flex;
       justify-content: space-between;
       flex-grow: 1;
+      flex-wrap: wrap;
+
+      @media (max-width: 600px) {
+        order: 3;
+        margin-bottom: 10px;
+      }
+
+      @media (max-width: 450px) {
+        flex-direction: column;
+        align-items: flex-start;
+      }
     }
 
     &-date {
@@ -211,6 +236,11 @@
     &-segment {
       padding: 0 30px;
       flex-grow: 1;
+
+      @media (max-width: 450px) {
+        padding: 20px 0;
+        width: 100%;
+      }
 
       &-part {
         position: relative;
@@ -270,6 +300,12 @@
 
     &-meta {
       margin-top: 46px;
+
+      @media (max-width: 600px) {
+        margin-top: 0;
+        margin-bottom: 20px;
+        order: 1;
+      }
     }
   }
 </style>

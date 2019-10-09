@@ -48,10 +48,18 @@
 
     &-left {
       width: 640px;
+
+      @media (max-width: 900px) {
+        width: 100%;
+      }
     }
 
     &-right {
       width: 240px;
+
+      @media (max-width: 900px) {
+        width: 100%;
+      }
     } 
   }
 </style>
