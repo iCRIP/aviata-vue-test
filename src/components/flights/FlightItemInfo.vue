@@ -41,7 +41,7 @@
           {{ calculateDiff(itineraries.segments[1].dep_time_iso, itineraries.segments[0].arr_time_iso) }}
         </div>
         <div v-if="itineraries.stops > 1" class="flight-segment-stops">
-          {{itineraries.stops}} пересадок
+          {{itineraries.stops}} пересадки
         </div>
       </div>
       <div class="flight-date">

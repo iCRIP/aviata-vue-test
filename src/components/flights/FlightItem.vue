@@ -39,11 +39,11 @@
   .flight {
     display: flex;
     flex-wrap: wrap;
-    min-height: 50px;
     background: $bgMainCard;
     margin-bottom: $paddingMain;
     border-radius: 4px;
     overflow: hidden;
+    will-change: max-height, opacity;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
 
     &-left {

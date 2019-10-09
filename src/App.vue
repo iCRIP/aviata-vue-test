@@ -74,7 +74,7 @@ export default {
       existedFilter.variants = newVariants;
     },
 
-    tranformAirlines(airlines) {
+    transformAirlines(airlines) {
       const airlinesKeys = Object.keys(airlines);
       const variants = airlinesKeys.map(key => ({ 
         value: key,
@@ -84,8 +84,48 @@ export default {
       return variants;
     },
 
+    filterByRate(flights) {
+      if (!this.selectedFilters.rate.length) return flights;
+ 
+      let filtered = [];
+
+      this.selectedFilters.rate.forEach(rate => {
+        const toFilter = filtered.length ? filtered : flights;
+
+        if (rate === 1) { // только прямые
+          filtered = toFilter.filter(flight => {
+            return flight.itineraries[0][0].stops === 0;
+          })
+        }
+
+        if (rate === 2) { // только с багажем
+          filtered = toFilter.filter(flight => {
+            return flight.itineraries[0][0].segments.some(segment => segment.baggage_options[0].value > 0);
+          })
+        }
+
+        if (rate === 3) { // только возвратные
+          filtered = toFilter.filter(flight => {
+            return flight.refundable
+          })
+        }
+      });
+
+      return filtered;
+    },
+
+    filterByCarrier(flights) {
+      if (!this.selectedFilters.airlines.length) return flights;
+
+      return flights.filter(flight => {
+        return this.selectedFilters.airlines.some(airline => airline === flight.itineraries[0][0].carrier) 
+      })
+    },
+
     filterFlights() {
-      this.flightsFiltered = JSON.parse(JSON.stringify(this.flights))
+      let filtered = this.filterByRate(this.flights);
+      filtered = this.filterByCarrier(filtered);
+      this.flightsFiltered = JSON.parse(JSON.stringify(filtered));
     },
 
     getResults() {
@@ -93,12 +133,21 @@ export default {
         .then(({ data }) => {
           this.setFiltersVariants(
             'airlines',
-            this.tranformAirlines(data.airlines)
+            this.transformAirlines(data.airlines)
           );
           this.flights = data.flights;
           this.filterFlights();
         })
         .catch(err => new Error(err))
+    }
+  },
+
+  watch: {
+    selectedFilters: {
+      handler: function() {
+        this.filterFlights();
+      },
+      deep: true,
     }
   },
 

@@ -1,7 +1,7 @@
 <template>
   <div class="flights">
     <div
-      v-if="flights.lenght === 0 && !loading"
+      v-if="!flights.length && !loading"
       class="flights-empty"
       >
       Билетов не найдено
@@ -12,10 +12,10 @@
       >
       Загрузка
     </div>
-    <transition-group type="transition" name="flights-anim">
+    <transition-group name="flights-anim" tag="div">
       <FlightItem
-        v-for="(flight, index) in flights"
-        :key="'flight-' + index"
+        v-for="(flight) in flights"
+        :key="flight.id"
         :flight="flight"
         />
     </transition-group>
@@ -42,7 +42,9 @@
 </script>
 
 <style lang="scss" scoped>
-  .fligths {
+  .flights {
+    overflow: hidden;
+
     &-empty {
       text-align: center;
       padding: $paddingMain;
@@ -52,11 +54,10 @@
     &-anim {
       &-enter,
       &-leave-to {
-        transform: translateX(100%);
         opacity: 0;
         overflow: hidden;
         max-height: 0;
-        margin-bottom: 0 !important;
+        margin-bottom: 0;
         transition-duration: 0.4s;
       }
 
@@ -64,7 +65,7 @@
       &-leave {
         max-height: 200px;
         opacity: 1;
-        margin-bottom: 2em !important;
+        margin-bottom: $paddingMain;
         transition-duration: 0.4s;
         overflow: hidden;
       }
