@@ -10,7 +10,7 @@
         />
       </aside>
       <main class="main">
-        some
+        <FlightList :flights="flightsFiltered" />
       </main>
     </div>
   </div>
@@ -18,11 +18,13 @@
 
 <script>
 import FilterCheckboxes from '@/components/filter/FilterCheckboxes';
+import FlightList from '@/components/flights/FlightList'
 
 export default {
   name: 'app',
   components: {
-    FilterCheckboxes
+    FilterCheckboxes,
+    FlightList
   },
   data() {
     return {
@@ -60,6 +62,7 @@ export default {
         airlines: []
       },
       flights: [],
+      flightsFiltered: [],
     }
   },
 
@@ -81,6 +84,10 @@ export default {
       return variants;
     },
 
+    filterFlights() {
+      this.flightsFiltered = JSON.parse(JSON.stringify(this.flights))
+    },
+
     getResults() {
       return this.$api.airlines.all()
         .then(({ data }) => {
@@ -89,6 +96,7 @@ export default {
             this.tranformAirlines(data.airlines)
           );
           this.flights = data.flights;
+          this.filterFlights();
         })
         .catch(err => new Error(err))
     }

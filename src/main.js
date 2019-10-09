@@ -4,7 +4,13 @@ import App from './App.vue'
 
 import './assets/scss/main.scss' // main shared styles
 
-Vue.config.productionTip = false
+const moment = require('moment')
+require('moment/locale/ru')
+
+Vue.config.productionTip = false;
+Vue.use(require('vue-moment'), {
+    moment
+})
 
 new Vue({
   render: h => h(App),
