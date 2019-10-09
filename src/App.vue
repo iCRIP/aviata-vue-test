@@ -2,6 +2,12 @@
   <div id="app" class="container">
     <div class="row">
       <aside class="sidebar">
+        <FilterCheckboxes
+          v-for="(filter, index) in filters"
+          :key="'filter-' + index"
+          :filter="filter"
+          v-model="selectedFilters[filter.name]"
+        />
       </aside>
       <main class="main">
         some
@@ -11,8 +17,13 @@
 </template>
 
 <script>
+import FilterCheckboxes from '@/components/filter/FilterCheckboxes';
+
 export default {
   name: 'app',
+  components: {
+    FilterCheckboxes
+  },
   data() {
     return {
       filters: [
@@ -20,6 +31,7 @@ export default {
           title: 'Опции тарифа',
           name: 'rate',
           type: 'checkbox',
+          selectAll: false,
           variants: [
             {
               value: 1,
@@ -38,17 +50,14 @@ export default {
         {
           title: 'Авиакомпании',
           name: 'airlines',
+          selectAll: true,
           type: 'checkbox',
-          defaultVariant: {
-            value: 'all',
-            text: 'Все'
-          },
           variants: []
         },
       ],
       selectedFilters: {
         rate: [],
-        airlines: ['all']
+        airlines: []
       },
       flights: [],
     }
@@ -58,8 +67,6 @@ export default {
     setFiltersVariants(name, variants) {
       const existedFilter = this.filters.find(filter => filter.name === name);
       let newVariants = [...variants];
-      const defaultVariant = existedFilter.defaultVariant;
-      if (defaultVariant) newVariants.unshift(defaultVariant);
 
       existedFilter.variants = newVariants;
     },
