@@ -98,45 +98,6 @@
 </script>
 
 <style lang="scss" scoped>
-.tooltip {
-  position: absolute;
-  background-color: $white;
-  border: 1px solid $lightGrey;
-  border-radius: 6px;
-  padding: $paddingMain;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  white-space: nowrap;
-  margin-bottom: 10px;
-  pointer-events: none;
-  opacity: 0;
-  box-shadow: 0 0 5px rgba(0,0,0,0.2);
-  transition: opacity 0.2s;
-
-  &:before {
-    content: '';
-    position: absolute;
-    width: 14px;
-    height: 14px;
-    left: 50%;
-    bottom: -13px;
-    background-color: $white;
-    border-bottom: 1px solid $lightGrey;
-    border-right: 1px solid $lightGrey;
-    transform: rotate(45deg) translateX(-50%);
-  }
-
-  &-wrap {
-    position: relative;
-
-    &:hover {
-      .tooltip {
-        opacity: 1;
-      }
-    }
-  }
-}
 .filter {
   padding: ($paddingMain) 0;
   background-color: $bgAsideCard;

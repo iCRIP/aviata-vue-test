@@ -43,12 +43,10 @@
 
 <style lang="scss" scoped>
   .flights {
-    overflow: hidden;
-
     &-empty {
       text-align: center;
-      padding: $paddingMain;
       font-size: $fzTitle;
+      height: 0;
     }
 
     &-anim {
